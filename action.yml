@@ -17,14 +17,19 @@ inputs:
     description: The layer types (e.g. "Adhesive", "Cu") to include in the export, in order of precedence
     required: false
     default: 'Adhesive,Paste,Mask,Cu,Silkscreen'
+  extra-pcb-layers:
+    description: Extra layers to show on their own sheet
+    required: false
+    default: ''
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/benmmclean/kicadpdf:0.1.3'
+  image: 'docker://ghcr.io/benmmclean/kicadpdf:0.1.4'
   args:
     - ${{ inputs.input-files }}
     - ${{ inputs.output-file }}
     - ${{ inputs.copper-layers }}
     - ${{ inputs.pcb-layers }}
+    - ${{ inputs.extra-pcb-layers }}
 branding:
   icon: 'cpu'
   color: 'green'
