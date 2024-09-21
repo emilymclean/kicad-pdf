@@ -1,0 +1,19 @@
+name: 'Kicad PDF'
+description: 'Generates a PDF for specified Kicad files'
+author: 'Emily McLean'
+inputs:
+  input-files:
+    description: 'The Kicad files to process'
+    required: true
+  output-file:
+    description: 'The name/location of the resulting PDF'
+    required: true
+runs:
+  using: 'docker'
+  image: 'docker://ghcr.io/benmmclean/kicadpdf:0.1.0'
+  args:
+    - ${{ inputs.input-files }}
+    - ${{ inputs.output-file }}
+branding:
+  icon: 'cpu'
+  color: 'green'
