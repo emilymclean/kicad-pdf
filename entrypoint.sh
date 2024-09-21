@@ -35,10 +35,14 @@ for i in "${!file_array[@]}"; do
 
     for j in "${!board_layers[@]}"; do
       board_layer="${board_layers[$j]}"
+
+      # This is a hack because Kicad won't let us order layers :/
       kicad-cli pcb export svg "$path" -o "/tmp/$j-Cu.svg" -l "$board_layer.Cu"
-      kicad-cli pcb export svg "$path" -o "/tmp/$j-O.svg" -l "$board_layer.Adhesive,$board_layer.Paste,$board_layer.Silkscreen,$board_layer.Mask,Edge.Cuts"
+      kicad-cli pcb export svg "$path" -o "/tmp/$j-O.svg" -l "$board_layer.Adhesive,$board_layer.Paste,$board_layer.Mask,Edge.Cuts"
+      kicad-cli pcb export svg "$path" -o "/tmp/$j-S.svg" -l "$board_layer.Silkscreen"
 
       python3 /scripts/combine.py "/tmp/$j-Cu.svg" "/tmp/$j-O.svg" "/tmp/$j.svg"
+      python3 /scripts/combine.py "/tmp/$j.svg" "/tmp/$j-S.svg" "/tmp/$j.svg"
 
       rsvg-convert -f pdf -o "/tmp/$index-$j.pdf" "/tmp/$j.svg"
       combine_pdfs+=("/tmp/$index-$j.pdf")

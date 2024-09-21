@@ -16,6 +16,6 @@ Generates a PDF for specified Kicad files
 ```
 uses: BenMMcLean/KicadPDF@v1
 with:
-  input-file: schematic.kicad_sch
-  output-file: schematic.csv
+  input-files: schematic.kicad_sch
+  output-file: schematic.pdf
 ```
