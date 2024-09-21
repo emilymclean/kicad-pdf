@@ -53,14 +53,16 @@ for i in "${!file_array[@]}"; do
         
         rsvg-convert -f pdf -o "/tmp/$index-$j.pdf" "/tmp/$j.svg"
       else
-        kicad-cli pcb export pdf "$path" -o "/tmp/$index-$j.pdf" -l "$copper_layer.Cu,Edge.Cuts" --ibt
+        kicad-cli pcb export svg "$path" -o "/tmp/$j.svg" -l "$copper_layer.Cu,Edge.Cuts"
+        rsvg-convert -f pdf -o "/tmp/$index-$j.pdf" "/tmp/$j.svg"
       fi
 
       combine_pdfs+=("/tmp/$index-$j.pdf")
     done
 
     if [ ${#extra_pcb_layers[@]} -ne 0 ]; then
-      kicad-cli pcb export pdf "$path" -o "/tmp/$index-x.pdf" -l "${IFS=',' echo "${extra_pcb_layers[*]}"},Edge.Cuts" --ibt
+      kicad-cli pcb export svg "$path" -o "/tmp/x.svg" -l "${IFS=',' echo "${extra_pcb_layers[*]}"},Edge.Cuts"
+      rsvg-convert -f pdf -o "/tmp/$index-x.pdf" "/tmp/x.svg"
       combine_pdfs+=("/tmp/$index-x.pdf")
     fi
 
