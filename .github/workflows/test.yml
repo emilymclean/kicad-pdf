@@ -27,7 +27,7 @@ jobs:
       - uses: ./
         with:
           input-files: proj/src-kicad/icezum.kicad_pcb
-          output-folder: test.pdf
+          output-file: test.pdf
       - uses: actions/upload-artifact@v4
         with:
           name: test-pdf

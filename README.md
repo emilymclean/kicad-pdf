@@ -4,9 +4,9 @@ Generates a CSV BOM for a specified schematic
 
 ## Inputs
 
-### `input-file`
+### `input-files`
 
-**Required** The schematic to process
+**Required** The Kicad files to process
 
 ### `output-file`
 

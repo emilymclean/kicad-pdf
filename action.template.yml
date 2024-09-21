@@ -2,8 +2,8 @@ name: 'Kicad PDF'
 description: 'Generates a PDF for a specified Kicad file'
 author: 'Emily McLean'
 inputs:
-  input-file:
-    description: 'The Kicad file to process'
+  input-files:
+    description: 'The Kicad files to process'
     required: true
   output-file:
     description: 'The name/location of the resulting PDF'
@@ -12,7 +12,7 @@ runs:
   using: 'docker'
   image: '{{ .image }}'
   args:
-    - ${{`{{ inputs.input-file }}`}}
+    - ${{`{{ inputs.input-files }}`}}
     - ${{`{{ inputs.output-file }}`}}
 branding:
   icon: 'cpu'
