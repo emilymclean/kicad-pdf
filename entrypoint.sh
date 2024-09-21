@@ -39,8 +39,8 @@ for i in "${!file_array[@]}"; do
       if [[ "$board_layer" == "F" || "$board_layer" == "B" ]]; then
         # This is a hack because Kicad won't let us order layers :/
         kicad-cli pcb export svg "$path" -o "/tmp/$j-Cu.svg" -l "$board_layer.Cu"
-        kicad-cli pcb export svg "$path" -o "/tmp/$j-O.svg" -l "$board_layer.Adhesive,$board_layer.Paste,$board_layer.Mask,Edge.Cuts"
-        kicad-cli pcb export svg "$path" -o "/tmp/$j-S.svg" -l "$board_layer.Silkscreen"
+        kicad-cli pcb export svg "$path" -o "/tmp/$j-O.svg" -l "$board_layer.Adhesive,$board_layer.Paste,$board_layer.Mask,Edge.Cuts" --exclude-drawing-sheet
+        kicad-cli pcb export svg "$path" -o "/tmp/$j-S.svg" -l "$board_layer.Silkscreen" --exclude-drawing-sheet
 
         python3 /scripts/combine.py "/tmp/$j-Cu.svg" "/tmp/$j-O.svg" "/tmp/$j.svg"
         python3 /scripts/combine.py "/tmp/$j.svg" "/tmp/$j-S.svg" "/tmp/$j.svg"
