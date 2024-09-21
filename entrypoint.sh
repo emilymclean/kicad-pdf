@@ -9,8 +9,11 @@ fi
 # Split the first argument (comma-separated file list) into an array
 IFS=',' read -r -a file_array <<< "$1"
 
-# Split the third argument (comma-separated file list) into an array
-IFS=',' read -r -a board_layers <<< "${3:-F,B}"
+# Split the third argument (comma-separated copper layer list) into an array
+IFS=',' read -r -a copper_layers <<< "${3:-F,B}"
+
+# Split the fourth argument (comma-separated pcb layer list) into an array
+IFS=',' read -r -a pcb_layers <<< "$4"
 
 mkdir /tmp
 
@@ -33,21 +36,22 @@ for i in "${!file_array[@]}"; do
   elif [ "$extension" == "kicad_pcb" ]; then
     combine_pdfs=()
 
-    for j in "${!board_layers[@]}"; do
-      board_layer="${board_layers[$j]}"
+    for j in "${!copper_layers[@]}"; do
+      copper_layer="${copper_layers[$j]}"
 
-      if [[ "$board_layer" == "F" || "$board_layer" == "B" ]]; then
+      if [[ "$copper_layer" == "F" || "$copper_layer" == "B" ]]; then
         # This is a hack because Kicad won't let us order layers :/
-        kicad-cli pcb export svg "$path" -o "/tmp/$j-Cu.svg" -l "$board_layer.Cu"
-        kicad-cli pcb export svg "$path" -o "/tmp/$j-O.svg" -l "$board_layer.Adhesive,$board_layer.Paste,$board_layer.Mask,Edge.Cuts" --exclude-drawing-sheet
-        kicad-cli pcb export svg "$path" -o "/tmp/$j-S.svg" -l "$board_layer.Silkscreen" --exclude-drawing-sheet
-
-        python3 /scripts/combine.py "/tmp/$j-Cu.svg" "/tmp/$j-O.svg" "/tmp/$j.svg"
-        python3 /scripts/combine.py "/tmp/$j.svg" "/tmp/$j-S.svg" "/tmp/$j.svg"
-
+        kicad-cli pcb export svg "$path" -o "/tmp/$j.svg" -l "EdgeCuts" --exclude-drawing-sheet
+        
+        for k in "${!pcb_layers[@]}"; do
+            pcb_layer="${pcb_layers[$k]}"
+            kicad-cli pcb export svg "$path" -o "/tmp/$j.c.svg" -l "$copper_layer.$pcb_layer" --exclude-drawing-sheet
+            python3 /scripts/combine.py "/tmp/$j.svg" "/tmp/$j.c.svg" "/tmp/$j.svg"
+        done
+        
         rsvg-convert -f pdf -o "/tmp/$index-$j.pdf" "/tmp/$j.svg"
       else
-        kicad-cli pcb export pdf "$path" -o "/tmp/$index-$j.pdf" -l "$board_layer.Cu" --ibt
+        kicad-cli pcb export pdf "$path" -o "/tmp/$index-$j.pdf" -l "$copper_layer.Cu,EdgeCuts" --ibt
       fi
 
       combine_pdfs+=("/tmp/$index-$j.pdf")

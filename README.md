@@ -12,9 +12,13 @@ Generates a PDF for specified Kicad files
 
 **Required** The name of the resulting CSV BOM
 
-### `layers`
+### `copper-layers`
 
-The layers of the board, defaults to `F,B`
+The copper layers of the board, defaults to `F,B`
+
+### `pcb-layers`
+
+The layer types (e.g. "Adhesive", "Cu") to include in the export, in order of precedence, defaults to `Adhesive,Paste,Mask,Cu,Silkscreen`
 
 ## Example usage
 ```
