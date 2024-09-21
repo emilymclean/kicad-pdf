@@ -20,6 +20,9 @@ The copper layers of the board, defaults to `F,B`
 
 The layer types (e.g. "Adhesive", "Cu") to include in the export, in order of precedence, defaults to `Adhesive,Paste,Mask,Cu,Silkscreen`
 
+### `extra-pcb-layers`
+Extra layers to show on their own sheet. `Edge.Cuts` is implicitly included.
+
 ## Example usage
 ```
 uses: BenMMcLean/KicadPDF@v1
