@@ -15,7 +15,7 @@ jobs:
         with:
           repository: FPGAwars/icezum
           ref: dbad423670419b82018bf6e33c418fc35558c1be
-          path: /proj
+          path: proj
       - uses: ./
         with:
           input-files: proj/src-kicad/icezum.kicad_pcb
