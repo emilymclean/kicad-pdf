@@ -8,17 +8,23 @@ inputs:
   output-file:
     description: 'The name/location of the resulting PDF'
     required: true
-  layers:
+  # The following parameters are only relevant to PCB exports
+  copper-layers:
     description: 'The layers of the board, defaults to "F,B"'
     required: false
     default: 'F,B'
+  pcb-layers:
+    description: The layer types (e.g. "Adhesive", "Cu") to include in the export, in order of precedence
+    required: false
+    default: 'Adhesive,Paste,Mask,Cu,Silkscreen'
 runs:
   using: 'docker'
   image: '{{ .image }}'
   args:
     - ${{`{{ inputs.input-files }}`}}
     - ${{`{{ inputs.output-file }}`}}
-    - ${{`{{ inputs.layers }}`}}
+    - ${{`{{ inputs.copper-layers }}`}}
+    - ${{`{{ inputs.pcb-layers }}`}}
 branding:
   icon: 'cpu'
   color: 'green'

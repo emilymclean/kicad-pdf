@@ -28,7 +28,7 @@ jobs:
         with:
           input-files: proj/src-kicad/icezum.kicad_pcb
           output-file: test.pdf
-          layers: F,In1,In2,B
+          copper-layers: F,In1,In2,B
       - uses: actions/upload-artifact@v4
         with:
           name: test-pdf
