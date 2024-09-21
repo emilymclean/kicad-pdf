@@ -26,7 +26,7 @@ jobs:
             image: Dockerfile
       - uses: ./
         with:
-          input-files: proj/src-kicad/icezum.kicad_pcb
+          input-files: proj/src-kicad/icezum.sch,proj/src-kicad/icezum.kicad_pcb
           output-file: test.pdf
           layers: F,In1,In2,B
       - uses: actions/upload-artifact@v4
