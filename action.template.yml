@@ -1,5 +1,5 @@
 name: 'Kicad PDF'
-description: 'Generates a PDF for a specified Kicad file'
+description: 'Generates a PDF for specified Kicad files'
 author: 'Emily McLean'
 inputs:
   input-files:

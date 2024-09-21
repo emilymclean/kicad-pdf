@@ -1,6 +1,6 @@
 # KicadPDF Action
 
-Generates a CSV BOM for a specified schematic
+Generates a PDF for specified Kicad files
 
 ## Inputs
 
