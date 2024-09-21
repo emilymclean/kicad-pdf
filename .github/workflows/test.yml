@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: [ master, main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          repository: FPGAwars/icezum
+          ref: dbad423670419b82018bf6e33c418fc35558c1be
+          path: /proj
+      - uses: ./
+        with:
+          input-files: proj/src-kicad/icezum.kicad_pcb
+          output-folder: test.pdf
+      - uses: actions/upload-artifact@v4
+        with:
+          name: test-pdf
+          path: test.pdf
