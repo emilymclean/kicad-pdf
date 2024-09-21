@@ -12,10 +12,14 @@ Generates a PDF for specified Kicad files
 
 **Required** The name of the resulting CSV BOM
 
+### `layers`
+
+The layers of the board, defaults to `F,B`
+
 ## Example usage
 ```
 uses: BenMMcLean/KicadPDF@v1
 with:
-  input-file: schematic.kicad_sch
-  output-file: schematic.csv
+  input-files: schematic.kicad_sch
+  output-file: schematic.pdf
 ```

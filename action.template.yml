@@ -8,12 +8,16 @@ inputs:
   output-file:
     description: 'The name/location of the resulting PDF'
     required: true
+  layers:
+    description: 'The layers of the board, defaults to "F,B"'
+    required: false
 runs:
   using: 'docker'
   image: '{{ .image }}'
   args:
     - ${{`{{ inputs.input-files }}`}}
     - ${{`{{ inputs.output-file }}`}}
+    - ${{`{{ inputs.layers }}`}}
 branding:
   icon: 'cpu'
   color: 'green'
