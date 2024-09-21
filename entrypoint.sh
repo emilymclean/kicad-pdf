@@ -47,12 +47,12 @@ for i in "${!file_array[@]}"; do
 
         rsvg-convert -f pdf -o "/tmp/$index-$j.pdf" "/tmp/$j.svg"
       else
-        kicad-cli pcb export pdf "$path" -o "/tmp/$index-$j.pdf" -l "$board_layer.Cu"
+        kicad-cli pcb export pdf "$path" -o "/tmp/$index-$j.pdf" -l "$board_layer.Cu" --ibt
       fi
 
       combine_pdfs+=("/tmp/$index-$j.pdf")
     done
-    
+
     # Export PCB to PDF
     pdfunite "${combine_pdfs[@]}" "/tmp/$index.pdf"
 
