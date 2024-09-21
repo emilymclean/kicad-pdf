@@ -15,6 +15,9 @@ IFS=',' read -r -a copper_layers <<< "${3:-F,B}"
 # Split the fourth argument (comma-separated pcb layer list) into an array
 IFS=',' read -r -a pcb_layers <<< "$4"
 
+# Split the fifth argument (comma-separated extra pcb layer list) into an array
+IFS=',' read -r -a extra_pcb_layers <<< "$5"
+
 mkdir /tmp
 
 # Prepare an array to hold the output PDF files
@@ -55,6 +58,11 @@ for i in "${!file_array[@]}"; do
 
       combine_pdfs+=("/tmp/$index-$j.pdf")
     done
+
+    if [ ${#extra_pcb_layers[@]} -ne 0 ]; then
+      kicad-cli pcb export pdf "$path" -o "/tmp/$index-x.pdf" -l "${IFS=',' echo "${extra_pcb_layers[*]}"},Edge.Cuts" --ibt
+      combine_pdfs+=("/tmp/$index-x.pdf")
+    fi
 
     # Export PCB to PDF
     pdfunite "${combine_pdfs[@]}" "/tmp/$index.pdf"
