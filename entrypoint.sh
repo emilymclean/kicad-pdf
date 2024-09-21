@@ -41,8 +41,8 @@ for i in "${!file_array[@]}"; do
 
       if [[ "$copper_layer" == "F" || "$copper_layer" == "B" ]]; then
         # This is a hack because Kicad won't let us order layers :/
-        kicad-cli pcb export svg "$path" -o "/tmp/$j.svg" -l "EdgeCuts" --exclude-drawing-sheet
-        
+        kicad-cli pcb export svg "$path" -o "/tmp/$j.svg" -l "Edge.Cuts" --exclude-drawing-sheet
+
         for k in "${!pcb_layers[@]}"; do
             pcb_layer="${pcb_layers[$k]}"
             kicad-cli pcb export svg "$path" -o "/tmp/$j.c.svg" -l "$copper_layer.$pcb_layer" --exclude-drawing-sheet
