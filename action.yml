@@ -8,12 +8,17 @@ inputs:
   output-file:
     description: 'The name/location of the resulting PDF'
     required: true
+  layers:
+    description: 'The layers of the board, defaults to "F,B"'
+    required: false
+    default: 'F,B'
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/benmmclean/kicadpdf:0.1.0'
+  image: 'docker://ghcr.io/benmmclean/kicadpdf:0.1.1'
   args:
     - ${{ inputs.input-files }}
     - ${{ inputs.output-file }}
+    - ${{ inputs.layers }}
 branding:
   icon: 'cpu'
   color: 'green'
