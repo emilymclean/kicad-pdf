@@ -61,7 +61,7 @@ for i in "${!file_array[@]}"; do
     done
 
     if [ ${#extra_pcb_layers[@]} -ne 0 ]; then
-      kicad-cli pcb export svg "$path" -o "/tmp/x.svg" -l "${IFS=',' echo "${extra_pcb_layers[*]}"},Edge.Cuts"
+      kicad-cli pcb export svg "$path" -o "/tmp/x.svg" -l "${extra_pcb_layers[*]},Edge.Cuts"
       rsvg-convert -f pdf -o "/tmp/$index-x.pdf" "/tmp/x.svg"
       combine_pdfs+=("/tmp/$index-x.pdf")
     fi
