@@ -6,17 +6,19 @@ if [ -z "$1" ] || [ -z "$2" ]; then
   exit 1
 fi
 
+IFS=','
+
 # Split the first argument (comma-separated file list) into an array
-IFS=',' read -r -a file_array <<< "$1"
+read -r -a file_array <<< "$1"
 
 # Split the third argument (comma-separated copper layer list) into an array
-IFS=',' read -r -a copper_layers <<< "${3:-F,B}"
+read -r -a copper_layers <<< "${3:-F,B}"
 
 # Split the fourth argument (comma-separated pcb layer list) into an array
-IFS=',' read -r -a pcb_layers <<< "$4"
+read -r -a pcb_layers <<< "$4"
 
 # Split the fifth argument (comma-separated extra pcb layer list) into an array
-IFS=',' read -r -a extra_pcb_layers <<< "$5"
+read -r -a extra_pcb_layers <<< "$5"
 
 mkdir /tmp
 
