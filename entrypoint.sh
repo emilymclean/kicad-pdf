@@ -41,8 +41,7 @@ for i in "${!file_array[@]}"; do
 
       if [[ "$copper_layer" == "F" || "$copper_layer" == "B" ]]; then
         # This is a hack because Kicad won't let us order layers :/
-        kicad-cli pcb export svg "$path" -o "/tmp/$j.svg" -l "Edge.Cuts" --exclude-drawing-sheet
-
+        kicad-cli pcb export svg "$path" -o "/tmp/$j.svg" -l "Edge.Cuts"
         for k in "${!pcb_layers[@]}"; do
             pcb_layer="${pcb_layers[$k]}"
             kicad-cli pcb export svg "$path" -o "/tmp/$j.c.svg" -l "$copper_layer.$pcb_layer" --exclude-drawing-sheet
@@ -51,7 +50,7 @@ for i in "${!file_array[@]}"; do
         
         rsvg-convert -f pdf -o "/tmp/$index-$j.pdf" "/tmp/$j.svg"
       else
-        kicad-cli pcb export pdf "$path" -o "/tmp/$index-$j.pdf" -l "$copper_layer.Cu,EdgeCuts" --ibt
+        kicad-cli pcb export pdf "$path" -o "/tmp/$index-$j.pdf" -l "$copper_layer.Cu,Edge.Cuts" --ibt
       fi
 
       combine_pdfs+=("/tmp/$index-$j.pdf")
