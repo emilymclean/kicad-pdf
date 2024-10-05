@@ -26,7 +26,7 @@ Generates a PDF for your Kicad schematics and PCB files.
 
 ## Example usage
 ```
-uses: BenMMcLean/KicadPDF@1.0.1
+uses: BenMMcLean/kicad-pdf@v1.0.2
 with:
   input-files: schematic.kicad_sch
   output-file: schematic.pdf
