@@ -26,7 +26,7 @@ Generates a PDF for your Kicad schematics and PCB files.
 
 ## Example usage
 ```
-uses: {{ ACTION_REPO }}@{{ ACTION_VERSION }}
+uses: {{{ env.ACTION_REPO }}}@{{{ env.ACTION_VERSION }}}
 with:
   input-files: schematic.kicad_sch
   output-file: schematic.pdf

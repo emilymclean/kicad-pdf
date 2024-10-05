@@ -34,3 +34,19 @@ jobs:
         with:
           name: test-pdf
           path: test.pdf
+  test-readme-generation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Update README.md
+        uses: recih/template-render-action@v1.0.2
+        env:
+          ACTION_REPO: ${{ github.repository }}
+          ACTION_VERSION: v1.0.0
+        with:
+          template-file: templates/README.template.md
+          output-file: README.md
+          engine: mustache
+      - name: Cat
+        run: cat README.md
