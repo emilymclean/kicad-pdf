@@ -47,6 +47,5 @@ jobs:
         with:
           input: templates/README.template.md
           output: README.md
-          debug: true
       - name: Cat
         run: cat README.md
