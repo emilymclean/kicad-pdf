@@ -23,7 +23,7 @@ inputs:
     default: ''
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/benmmclean/kicadpdf:0.1.5'
+  image: 'docker://ghcr.io/benmmclean/kicadpdf:1.0.1'
   args:
     - ${{ inputs.input-files }}
     - ${{ inputs.output-file }}
