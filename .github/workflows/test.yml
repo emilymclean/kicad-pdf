@@ -48,10 +48,5 @@ jobs:
           template-file: templates/README.template.md
           output-file: README.md
           engine: mustache
-          vars: |
-            {
-              'ACTION_REPO': "${{ github.repository }}",
-              'ACTION_VERSION': "v1.0.0"
-            }
       - name: Cat
         run: cat README.md
