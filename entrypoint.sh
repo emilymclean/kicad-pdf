@@ -9,16 +9,16 @@ fi
 IFS=','
 
 # Split the first argument (comma-separated file list) into an array
-read -r -a file_array <<< "$1"
+read -r -a file_array <<< "$(echo "$1" | tr -s '[:space:]' | sed 's/ *, */,/g')"
 
 # Split the third argument (comma-separated copper layer list) into an array
-read -r -a copper_layers <<< "${3:-F,B}"
+read -r -a copper_layers <<< "$(echo "$3" | tr -s '[:space:]' | sed 's/ *, */,/g')"
 
 # Split the fourth argument (comma-separated pcb layer list) into an array
-read -r -a pcb_layers <<< "$4"
+read -r -a pcb_layers <<< "$(echo "$4" | tr -s '[:space:]' | sed 's/ *, */,/g')"
 
 # Split the fifth argument (comma-separated extra pcb layer list) into an array
-read -r -a extra_pcb_layers <<< "$5"
+read -r -a extra_pcb_layers <<< "$(echo "$5" | tr -s '[:space:]' | sed 's/ *, */,/g')"
 
 mkdir /tmp
 
