@@ -97,10 +97,18 @@ jobs:
         id: render_template
         uses: chuhlomin/render-template@v1
         with:
-          template: action.template.yml
+          template: templates/action.template.yml
           result_path: action.yml
           vars: |
             image: docker://ghcr.io/${{ env.REPOSITORY_LC }}:${{ needs.version.outputs.version }}
+      - name: Update README.md
+        uses: edgardleal/mustache-template-action@v1.0.0
+        env:
+          ACTION_REPO: ${{ github.repository }}
+          ACTION_VERSION: v${{ needs.version.outputs.version }}
+        with:
+          input: templates/README.template.md
+          output: README.md
       - uses: stefanzweifel/git-auto-commit-action@v5
         id: auto-commit
   release-main:

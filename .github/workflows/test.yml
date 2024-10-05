@@ -20,7 +20,7 @@ jobs:
         id: render_template
         uses: chuhlomin/render-template@v1
         with:
-          template: action.template.yml
+          template: templates/action.template.yml
           result_path: action.yml
           vars: |
             image: Dockerfile
