@@ -102,13 +102,14 @@ jobs:
           vars: |
             image: docker://ghcr.io/${{ env.REPOSITORY_LC }}:${{ needs.version.outputs.version }}
       - name: Update README.md
-        uses: edgardleal/mustache-template-action@v1.0.0
+        uses: recih/template-render-action@v1.0.2
         env:
           ACTION_REPO: ${{ github.repository }}
-          ACTION_VERSION: v${{ needs.version.outputs.version }}
+          ACTION_VERSION: ${{ needs.version.outputs.version }}
         with:
-          input: templates/README.template.md
-          output: README.md
+          template-file: templates/README.template.md
+          output-file: README.md
+          engine: mustache
       - uses: stefanzweifel/git-auto-commit-action@v5
         id: auto-commit
   release-main:
