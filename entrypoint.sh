@@ -47,16 +47,16 @@ for i in "${!file_array[@]}"; do
 
       if [[ "$copper_layer" == "F" || "$copper_layer" == "B" ]]; then
         # This is a hack because Kicad won't let us order layers :/
-        kicad-cli pcb export svg "$path" -o "$HOME/tmp/$j.svg" -l "Edge.Cuts"
+        kicad-cli pcb export svg "$path" -o "$HOME/tmp/$j.svg" -l "Edge.Cuts" --mode-single
         for k in "${!pcb_layers[@]}"; do
             pcb_layer="${pcb_layers[$k]}"
-            kicad-cli pcb export svg "$path" -o "$HOME/tmp/$j.c.svg" -l "$copper_layer.$pcb_layer" --exclude-drawing-sheet
+            kicad-cli pcb export svg "$path" -o "$HOME/tmp/$j.c.svg" -l "$copper_layer.$pcb_layer" --exclude-drawing-sheet --mode-single
             python3 /scripts/combine.py "$HOME/tmp/$j.svg" "$HOME/tmp/$j.c.svg" "$HOME/tmp/$j.svg"
         done
         
         rsvg-convert -f pdf -o "$HOME/tmp/$index-$j.pdf" "$HOME/tmp/$j.svg"
       else
-        kicad-cli pcb export svg "$path" -o "$HOME/tmp/$j.svg" -l "$copper_layer.Cu,Edge.Cuts"
+        kicad-cli pcb export svg "$path" -o "$HOME/tmp/$j.svg" -l "$copper_layer.Cu,Edge.Cuts" --mode-single
         rsvg-convert -f pdf -o "$HOME/tmp/$index-$j.pdf" "$HOME/tmp/$j.svg"
       fi
 
@@ -64,7 +64,7 @@ for i in "${!file_array[@]}"; do
     done
 
     if [ ${#extra_pcb_layers[@]} -ne 0 ]; then
-      kicad-cli pcb export svg "$path" -o "$HOME/tmp/x.svg" -l "${extra_pcb_layers[*]},Edge.Cuts"
+      kicad-cli pcb export svg "$path" -o "$HOME/tmp/x.svg" -l "${extra_pcb_layers[*]},Edge.Cuts" --mode-single
       rsvg-convert -f pdf -o "$HOME/tmp/$index-x.pdf" "$HOME/tmp/x.svg"
       combine_pdfs+=("$HOME/tmp/$index-x.pdf")
     fi
@@ -80,7 +80,7 @@ done
 
 # Combine the output PDFs into a single PDF using pdfunite
 if [ ${#output_pdfs[@]} -gt 0 ]; then
-  echo "${output_pdfs[@]}"
+  echo "PDFs to combine = ${output_pdfs[@]}"
   pdfunite "${output_pdfs[@]}" "/github/workspace/$2"
   echo "Combined PDF created at /github/workspace/$2"
 else
