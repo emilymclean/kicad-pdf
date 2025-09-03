@@ -11,6 +11,7 @@ COPY --from=build /usr/bin/rsvg-convert /usr/bin
 COPY --from=build /usr/bin/pdfunite /usr/bin
 COPY --from=build /lib /lib
 COPY entrypoint.sh /entrypoint.sh
+COPY wrapper.sh /wrapper.sh
 COPY scripts/ /scripts/
 
-ENTRYPOINT ["HOME=\"/home/kicad\"", "/entrypoint.sh"]
+ENTRYPOINT ["/wrapper.sh"]
