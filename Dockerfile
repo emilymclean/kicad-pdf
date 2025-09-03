@@ -13,4 +13,4 @@ COPY --from=build /lib /lib
 COPY entrypoint.sh /entrypoint.sh
 COPY scripts/ /scripts/
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["HOME=\"/home/kicad\"", "/entrypoint.sh"]

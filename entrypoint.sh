@@ -21,7 +21,7 @@ read -r -a pcb_layers <<< "$(echo "$4" | tr -s '[:space:]' | sed 's/ *, */,/g')"
 # Split the fifth argument (comma-separated extra pcb layer list) into an array
 read -r -a extra_pcb_layers <<< "$(echo "$5" | tr -s '[:space:]' | sed 's/ *, */,/g')"
 
-mkdir /home/kicad/tmp
+mkdir $HOME/tmp
 
 # Prepare an array to hold the output PDF files
 output_pdfs=()
@@ -37,8 +37,8 @@ for i in "${!file_array[@]}"; do
 
   if [[ "$extension" == "kicad_sch" || "$extension" == "sch" ]]; then
     # Export schematic to PDF
-    kicad-cli sch export pdf "$path" -o "/home/kicad/tmp/$index.pdf"
-    output_pdfs+=("/home/kicad/tmp/$index.pdf")
+    kicad-cli sch export pdf "$path" -o "$HOME/tmp/$index.pdf"
+    output_pdfs+=("$HOME/tmp/$index.pdf")
   elif [ "$extension" == "kicad_pcb" ]; then
     combine_pdfs=()
 
@@ -47,32 +47,32 @@ for i in "${!file_array[@]}"; do
 
       if [[ "$copper_layer" == "F" || "$copper_layer" == "B" ]]; then
         # This is a hack because Kicad won't let us order layers :/
-        kicad-cli pcb export svg "$path" -o "/home/kicad/tmp/$j.svg" -l "Edge.Cuts"
+        kicad-cli pcb export svg "$path" -o "$HOME/tmp/$j.svg" -l "Edge.Cuts"
         for k in "${!pcb_layers[@]}"; do
             pcb_layer="${pcb_layers[$k]}"
-            kicad-cli pcb export svg "$path" -o "/home/kicad/tmp/$j.c.svg" -l "$copper_layer.$pcb_layer" --exclude-drawing-sheet
-            python3 /scripts/combine.py "/home/kicad/tmp/$j.svg" "/home/kicad/tmp/$j.c.svg" "/home/kicad/tmp/$j.svg"
+            kicad-cli pcb export svg "$path" -o "$HOME/tmp/$j.c.svg" -l "$copper_layer.$pcb_layer" --exclude-drawing-sheet
+            python3 /scripts/combine.py "$HOME/tmp/$j.svg" "$HOME/tmp/$j.c.svg" "$HOME/tmp/$j.svg"
         done
         
-        rsvg-convert -f pdf -o "/home/kicad/tmp/$index-$j.pdf" "/home/kicad/tmp/$j.svg"
+        rsvg-convert -f pdf -o "$HOME/tmp/$index-$j.pdf" "$HOME/tmp/$j.svg"
       else
-        kicad-cli pcb export svg "$path" -o "/home/kicad/tmp/$j.svg" -l "$copper_layer.Cu,Edge.Cuts"
-        rsvg-convert -f pdf -o "/home/kicad/tmp/$index-$j.pdf" "/home/kicad/tmp/$j.svg"
+        kicad-cli pcb export svg "$path" -o "$HOME/tmp/$j.svg" -l "$copper_layer.Cu,Edge.Cuts"
+        rsvg-convert -f pdf -o "$HOME/tmp/$index-$j.pdf" "$HOME/tmp/$j.svg"
       fi
 
-      combine_pdfs+=("/home/kicad/tmp/$index-$j.pdf")
+      combine_pdfs+=("$HOME/tmp/$index-$j.pdf")
     done
 
     if [ ${#extra_pcb_layers[@]} -ne 0 ]; then
-      kicad-cli pcb export svg "$path" -o "/home/kicad/tmp/x.svg" -l "${extra_pcb_layers[*]},Edge.Cuts"
-      rsvg-convert -f pdf -o "/home/kicad/tmp/$index-x.pdf" "/home/kicad/tmp/x.svg"
-      combine_pdfs+=("/home/kicad/tmp/$index-x.pdf")
+      kicad-cli pcb export svg "$path" -o "$HOME/tmp/x.svg" -l "${extra_pcb_layers[*]},Edge.Cuts"
+      rsvg-convert -f pdf -o "$HOME/tmp/$index-x.pdf" "$HOME/tmp/x.svg"
+      combine_pdfs+=("$HOME/tmp/$index-x.pdf")
     fi
 
     # Export PCB to PDF
-    pdfunite "${combine_pdfs[@]}" "/home/kicad/tmp/$index.pdf"
+    pdfunite "${combine_pdfs[@]}" "$HOME/tmp/$index.pdf"
 
-    output_pdfs+=("/home/kicad/tmp/$index.pdf")
+    output_pdfs+=("$HOME/tmp/$index.pdf")
   else
     echo "Unsupported file type: $extension"
   fi
