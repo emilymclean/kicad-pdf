@@ -7,6 +7,13 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -yqq --no-install-
 
 FROM kicad/kicad:${KICAD_VERSION} AS runtime
 
+ARG USER_NAME
+USER root
+
+RUN mkdir -p /github/workspace && chown -R ${USER_NAME}:${USER_NAME} /github
+
+USER ${USER_NAME}
+
 COPY --from=build /usr/bin/rsvg-convert /usr/bin
 COPY --from=build /usr/bin/pdfunite /usr/bin
 COPY --from=build /lib /lib
