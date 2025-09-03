@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Check if the required arguments are provided
 if [ -z "$1" ] || [ -z "$2" ]; then

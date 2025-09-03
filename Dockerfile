@@ -9,6 +9,7 @@ FROM kicad/kicad:${KICAD_VERSION} AS runtime
 
 COPY --from=build /usr/bin/rsvg-convert /usr/bin
 COPY --from=build /usr/bin/pdfunite /usr/bin
+COPY --from=build /lib /lib
 COPY entrypoint.sh /entrypoint.sh
 COPY scripts/ /scripts/
 
