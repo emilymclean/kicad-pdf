@@ -1,22 +1,14 @@
-ARG KICAD_VERSION="9.0"
-
-FROM debian:bookworm AS build
-
-RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -yqq --no-install-recommends poppler-utils librsvg2-bin
-
-FROM kicad/kicad:${KICAD_VERSION} AS runtime
+FROM kicad/kicad:${KICAD_VERSION}
 
 ARG USER_NAME
 USER root
 
 RUN mkdir -p /github/workspace && chown -R ${USER_NAME}:${USER_NAME} /github
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -yqq --no-install-recommends poppler-utils librsvg2-bin
 
 USER ${USER_NAME}
 
-COPY --from=build /usr/bin/rsvg-convert /usr/bin
-COPY --from=build /usr/bin/pdfunite /usr/bin
-COPY --from=build /lib /lib
 COPY entrypoint.sh /entrypoint.sh
 COPY wrapper.sh /wrapper.sh
 COPY scripts/ /scripts/
